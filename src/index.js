@@ -70,6 +70,7 @@ class Plyr extends Component {
     iconPrefix: PropTypes.string,
     debug: PropTypes.bool,
     autoplay: PropTypes.bool,
+    preload: PropTypes.string,
     seekTime: PropTypes.number,
     volume: PropTypes.number,
     clickToPlay: PropTypes.bool,
@@ -195,7 +196,10 @@ class Plyr extends Component {
 
     if (this.props.sources && Array.isArray(this.props.sources) && this.props.sources.length) {
       toRender = (
-        <video className='react-plyr'>
+        <video
+          className='react-plyr'
+          preload={this.props.preload}
+        >
           {
             this.props.sources.map(function(source, index) {
               return (
@@ -210,7 +214,7 @@ class Plyr extends Component {
         <video
           className='react-plyr'
           src={this.props.url}
-          preload='none'
+          preload={this.props.preload}
           poster={this.props.poster}
         />
       );
