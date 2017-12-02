@@ -13,6 +13,7 @@ class Plyr extends Component {
   static defaultProps = {
     type: 'youtube',
 
+    className: 'react-plyr',
     enabled: true,
     controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'fullscreen'],
     loadSprite: true,
@@ -44,6 +45,7 @@ class Plyr extends Component {
 
   static propTypes = {
     type: PropTypes.oneOf(['youtube', 'vimeo', 'video']),
+    className: PropTypes.string,
     videoId: PropTypes.string,
     url: PropTypes.string,
     poster: PropTypes.string,
@@ -134,7 +136,8 @@ class Plyr extends Component {
       delete options.iconUrl;
     }
 
-    this.player = plyr.setup('.react-plyr', options)[0];
+    const selector = `.${this.props.className.replace(/ /g, '.')}`
+    this.player = plyr.setup(selector, options)[0];
 
     if (this.player) {
       this.player.on('ready', () => {
@@ -186,7 +189,7 @@ class Plyr extends Component {
   // For video support for plyr supported videos using videoId ( Youtube and Vimeo for now ).
   renderPlayerWithVideoId() {
     return (
-      <div className="react-plyr" style={this.props.style}>
+      <div className={this.props.className} style={this.props.style}>
         <div
           data-type={this.props.type}
           data-video-id={this.props.videoId}
@@ -198,7 +201,7 @@ class Plyr extends Component {
   renderPlayerWithSRCWithSources(sources) {
     return (
       <video
-        className='react-plyr'
+        className={this.props.className}
         preload={this.props.preload}
         poster={this.props.poster}
       >
@@ -220,6 +223,7 @@ class Plyr extends Component {
       url,
       preload,
       poster,
+      className,
     } = this.props;
 
     if (sources && Array.isArray(sources) && sources.length) {
@@ -227,7 +231,7 @@ class Plyr extends Component {
     } else {
       return (
         <video
-          className='react-plyr'
+          className={className}
           src={url}
           preload={preload}
           poster={poster}
