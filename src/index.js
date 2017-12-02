@@ -193,13 +193,13 @@ class Plyr extends Component {
   renderPlayerWithSRC() {
     let toRender;
 
-    if(this.props.sources && Array.isArray(this.props.sources) && this.props.sources.length) {
+    if (this.props.sources && Array.isArray(this.props.sources) && this.props.sources.length) {
       toRender = (
         <video className='react-plyr'>
           {
             this.props.sources.map(function(source, index) {
               return (
-                <source src={source.src} type={source.type} />
+                <source key={index} src={source.src} type={source.type} />
               );
             })
           }
@@ -220,7 +220,7 @@ class Plyr extends Component {
   }
 
   render() {
-    if(this.props.type === 'video')
+    if (this.props.type === 'video')
       return this.renderPlayerWithSRC();
     else {
       return this.renderPlayerWithVideoId();
