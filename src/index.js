@@ -58,6 +58,7 @@ class Plyr extends Component {
     onPlay: PropTypes.func,
     onPause: PropTypes.func,
     onEnd: PropTypes.func,
+    onLoadedData: PropTypes.func,
     onSeeked: PropTypes.func,
     onEnterFullscreen: PropTypes.func,
     onVolumeChange: PropTypes.func,
@@ -150,6 +151,10 @@ class Plyr extends Component {
 
       this.player.on('ended', () => {
         this.props.onEnd && this.props.onEnd();
+      });
+
+      this.player.on('loadeddata', () => {
+        this.props.onLoadedData && this.props.onLoadedData();
       });
 
       this.player.on('seeked', event => {
