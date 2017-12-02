@@ -199,6 +199,7 @@ class Plyr extends Component {
         <video
           className='react-plyr'
           preload={this.props.preload}
+          poster={this.props.poster}
         >
           {
             this.props.sources.map(function(source, index) {
