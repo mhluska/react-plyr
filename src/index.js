@@ -195,38 +195,45 @@ class Plyr extends Component {
     );
   }
 
+  renderPlayerWithSRCWithSources(sources) {
+    return (
+      <video
+        className='react-plyr'
+        preload={this.props.preload}
+        poster={this.props.poster}
+      >
+        {
+          sources.map(function(source, index) {
+            return (
+              <source key={index} src={source.src} type={source.type} />
+            );
+          })
+        }
+      </video>
+    );
+  }
+
   // For video support for source defined as link to those video files.
   renderPlayerWithSRC() {
-    let toRender;
+    const {
+      sources,
+      url,
+      preload,
+      poster,
+    } = this.props;
 
-    if (this.props.sources && Array.isArray(this.props.sources) && this.props.sources.length) {
-      toRender = (
-        <video
-          className='react-plyr'
-          preload={this.props.preload}
-          poster={this.props.poster}
-        >
-          {
-            this.props.sources.map(function(source, index) {
-              return (
-                <source key={index} src={source.src} type={source.type} />
-              );
-            })
-          }
-        </video>
-      );
+    if (sources && Array.isArray(sources) && sources.length) {
+      return this.renderPlayerWithSRCWithSources(sources);
     } else {
-      toRender = (
+      return (
         <video
           className='react-plyr'
-          src={this.props.url}
-          preload={this.props.preload}
-          poster={this.props.poster}
+          src={url}
+          preload={preload}
+          poster={poster}
         />
       );
     }
-
-    return toRender;
   }
 
   render() {
