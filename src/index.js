@@ -23,6 +23,7 @@ class Plyr extends Component {
     autoplay: false,
     seekTime: 10,
     volume: 5,
+    loop: false,
     clickToPlay: true,
     disableContextMenu: true,
     hideControls: true,
@@ -76,6 +77,7 @@ class Plyr extends Component {
     preload: PropTypes.string,
     seekTime: PropTypes.number,
     volume: PropTypes.number,
+    loop: PropTypes.bool,
     clickToPlay: PropTypes.bool,
     disableContextMenu: PropTypes.bool,
     hideControls: PropTypes.bool,
@@ -182,8 +184,30 @@ class Plyr extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.sourcesAreDifferent(this.props.sources, nextProps.sources)) {
+      this.player.source({
+        sources: nextProps.sources,
+      });
+    }
+  }
+
   componentWillUnmount() {
     this.player && this.player.destroy();
+  }
+
+  sourcesAreDifferent(sources, otherSources) {
+    if (sources.length !== otherSources.length) {
+      return true;
+    }
+
+    for (let i = 0; i < sources.length; i += 1) {
+      if (sources[i].src !== otherSources[i].src || sources[i].type !== otherSources[i].type) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   // For video support for plyr supported videos using videoId ( Youtube and Vimeo for now ).
@@ -204,6 +228,7 @@ class Plyr extends Component {
         className={this.props.className}
         preload={this.props.preload}
         poster={this.props.poster}
+        loop={this.props.loop}
       >
         {
           sources.map(function(source, index) {
@@ -224,6 +249,7 @@ class Plyr extends Component {
       preload,
       poster,
       className,
+      loop,
     } = this.props;
 
     if (sources && Array.isArray(sources) && sources.length) {
@@ -235,6 +261,7 @@ class Plyr extends Component {
           src={url}
           preload={preload}
           poster={poster}
+          loop={loop}
         />
       );
     }
