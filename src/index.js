@@ -210,7 +210,7 @@ class Plyr extends Component {
     return false;
   }
 
-  // For video support for plyr supported videos using videoId ( Youtube and Vimeo for now ).
+  // For video support for plyr supported videos using videoId (Youtube and Vimeo for now).
   renderPlayerWithVideoId() {
     return (
       <div className={this.props.className} style={this.props.style}>
@@ -230,13 +230,9 @@ class Plyr extends Component {
         poster={this.props.poster}
         loop={this.props.loop}
       >
-        {
-          sources.map(function(source, index) {
-            return (
-              <source key={index} src={source.src} type={source.type} />
-            );
-          })
-        }
+        {sources.map((source, index) =>
+          <source key={index} src={source.src} type={source.type} />
+        )}
       </video>
     );
   }
