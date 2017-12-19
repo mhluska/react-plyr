@@ -131,7 +131,7 @@ class Plyr extends Component {
       tooltips: this.props.tooltips,
       duration: this.props.duration,
       displayDuration: this.props.displayDuration,
-      storage: this.props.storage
+      storage: this.props.storage,
     };
 
     if (!options.iconUrl) {
@@ -185,6 +185,10 @@ class Plyr extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (this.props.volume !== nextProps.volume) {
+      this.player.setVolume(nextProps.volume);
+    }
+
     if (this.sourcesAreDifferent(this.props.sources, nextProps.sources)) {
       this.player.source({
         sources: nextProps.sources,
