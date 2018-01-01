@@ -14,6 +14,7 @@ class Plyr extends Component {
     type: 'youtube',
 
     className: 'react-plyr',
+    sources: [],
     enabled: true,
     controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'fullscreen'],
     loadSprite: true,
@@ -46,6 +47,7 @@ class Plyr extends Component {
 
   static propTypes = {
     type: PropTypes.oneOf(['youtube', 'vimeo', 'video']),
+    key: PropTypes.string,
     className: PropTypes.string,
     videoId: PropTypes.string,
     url: PropTypes.string,
@@ -217,7 +219,11 @@ class Plyr extends Component {
   // For video support for plyr supported videos using videoId (Youtube and Vimeo for now).
   renderPlayerWithVideoId() {
     return (
-      <div className={this.props.className} style={this.props.style}>
+      <div
+        key={this.props.key}
+        className={this.props.className}
+        style={this.props.style}
+      >
         <div
           data-type={this.props.type}
           data-video-id={this.props.videoId}
@@ -226,13 +232,26 @@ class Plyr extends Component {
     );
   }
 
-  renderPlayerWithSRCWithSources(sources) {
+  // For video support for source defined as link to those video files.
+  renderPlayerWithSrc() {
+    const {
+      key,
+      className,
+      url,
+      preload,
+      poster,
+      loop,
+      sources,
+    } = this.props;
+
     return (
       <video
-        className={this.props.className}
-        preload={this.props.preload}
-        poster={this.props.poster}
-        loop={this.props.loop}
+        key={key}
+        className={className}
+        src={url}
+        preload={preload}
+        poster={poster}
+        loop={loop}
       >
         {sources.map((source, index) =>
           <source key={index} src={source.src} type={source.type} />
@@ -241,35 +260,9 @@ class Plyr extends Component {
     );
   }
 
-  // For video support for source defined as link to those video files.
-  renderPlayerWithSRC() {
-    const {
-      sources,
-      url,
-      preload,
-      poster,
-      className,
-      loop,
-    } = this.props;
-
-    if (sources && Array.isArray(sources) && sources.length) {
-      return this.renderPlayerWithSRCWithSources(sources);
-    } else {
-      return (
-        <video
-          className={className}
-          src={url}
-          preload={preload}
-          poster={poster}
-          loop={loop}
-        />
-      );
-    }
-  }
-
   render() {
     if (this.props.type === 'video')
-      return this.renderPlayerWithSRC();
+      return this.renderPlayerWithSrc();
     else {
       return this.renderPlayerWithVideoId();
     }
