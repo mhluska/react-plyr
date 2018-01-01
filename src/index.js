@@ -47,7 +47,6 @@ class Plyr extends Component {
 
   static propTypes = {
     type: PropTypes.oneOf(['youtube', 'vimeo', 'video']),
-    key: PropTypes.string,
     className: PropTypes.string,
     videoId: PropTypes.string,
     url: PropTypes.string,
@@ -220,7 +219,6 @@ class Plyr extends Component {
   renderPlayerWithVideoId() {
     return (
       <div
-        key={this.props.key}
         className={this.props.className}
         style={this.props.style}
       >
@@ -235,7 +233,6 @@ class Plyr extends Component {
   // For video support for source defined as link to those video files.
   renderPlayerWithSrc() {
     const {
-      key,
       className,
       url,
       preload,
@@ -246,7 +243,6 @@ class Plyr extends Component {
 
     return (
       <video
-        key={key}
         className={className}
         src={url}
         preload={preload}
